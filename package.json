@@ -4,14 +4,17 @@
   "description": "A site for booking cooking classes",
   "main": "main.js",
   "scripts": {
-    "start": "BROWSER=/opt/firefox/firefox nodemon index.js",
+    "start": "BROWSER=/opt/firefox/firefox nodemon main.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Aindriú Mac Giolla Eoin",
   "license": "ISC",
   "dependencies": {
     "bootstrap": "^4.5.3",
-    "http-status-codes": "^2.1.4",
+    "express": "^4.17.1",
+    "http-status-codes": "^2.1.4"
+  },
+  "devDependencies": {
     "nodemon": "^2.0.6"
   }
 }

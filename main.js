@@ -1,61 +1,34 @@
 "use strict";
 
 const port = 3000,
-  http = require("http"),
-  httpStatus = require("http-status-codes"),
-  router = require("./router"),
-  contentTypes = require("./contentTypes"),
-  utils = require("./utils");
+  express = require("express"),
+  app = express(),
+  homeController = require("./controllers/homeController");
 
-router.get("/", (req, res) => {
-  res.writeHead(httpStatus.OK, contentTypes.htm);
-  utils.getFile("views/index.html", res);
+app.use(
+  express.urlencoded({
+    extended: false,
+  })
+);
+
+app.use(express.json());
+
+app.use((req, res, next) => {
+  console.log(`request made to: ${req.url}`);
+  next();
 });
 
-router.get("/courses.html", (req, res) => {
-  res.writeHead(httpStatus.OK, contentTypes.html);
-  utils.getFile("views/courses.html", res);
+app.get("/", (req, res) => {
+  console.log(req.body);
+  console.log(req.query);
+  res.send("POST Successful!");
 });
 
-router.get("/contact.html", (req, res) => {
-  res.writeHead(httpStatus.OK, contentTypes.html);
-  utils.getFile("views/contact.html", res);
-});
+app.get("/items/:vegetable", homeController.sendReqParam);
+app.get("/:work", homeController.sendReqParam);
 
-router.post("/", (req, res) => {
-  res.writeHead(httpStatus.OK, contentTypes.html);
-  utils.getFile("views/thanks.html", res);
+app.listen(port, () => {
+  console.log(
+    `The Express.js server has started and is listening on port number: ${port}`
+  );
 });
-
-router.get("/graph.png", (req, res) => {
-  res.writeHead(httpStatus.OK, contentTypes.png);
-  utils.getFile("public/images/graph.png", res);
-});
-
-router.get("/people.jpg", (req, res) => {
-  res.writeHead(httpStatus.OK, contentTypes.jpg);
-  utils.getFile("public/images/people.jpg", res);
-});
-
-router.get("/product.jpg", (req, res) => {
-  res.writeHead(httpStatus.OK, contentTypes.jpg);
-  utils.getFile("public/images/product.jpg", res);
-});
-
-router.get("/confetti_cuisine.css", (req, res) => {
-  res.writeHead(httpStatus.OK, contentTypes.css);
-  utils.getFile("public/css/confetti_cuisine.css", res);
-});
-
-router.get("/bootstrap.css", (req, res) => {
-  res.writeHead(httpStatus.OK, contentTypes.css);
-  utils.getFile("public/css/bootstrap.css", res);
-});
-
-router.get("/confetti_cuisine.js", (req, res) => {
-  res.writeHead(httpStatus.OK, contentTypes.js);
-  utils.getFile("public/js/confetti_cuisine.js", res);
-});
-
-http.createServer(router.handle).listen(port);
-console.log(`The server is listening on port number: ${port}`);
