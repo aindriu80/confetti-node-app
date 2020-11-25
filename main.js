@@ -1,9 +1,13 @@
 "use strict";
 
-const port = 3000,
-  express = require("express"),
+const express = require("express"),
   app = express(),
-  homeController = require("./controllers/homeController");
+  homeController = require("./controllers/homeController"),
+  layouts = require("ejs");
+
+const errorController = require("./controllers/errorController");
+
+const port = 3000;
 
 app.use(
   express.urlencoded({
@@ -12,6 +16,7 @@ app.use(
 );
 
 app.use(express.json());
+app.use(errorController.logErrors);
 
 app.use((req, res, next) => {
   console.log(`request made to: ${req.url}`);
