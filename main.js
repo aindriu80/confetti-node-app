@@ -2,10 +2,9 @@
 
 const express = require("express"),
   app = express(),
+  errorController = require("./controllers/errorController"),
   homeController = require("./controllers/homeController"),
   layouts = require("express-ejs-layouts");
-
-const errorController = require("./controllers/errorController");
 
 const port = 3000;
 app.set("view engine", "ejs");
@@ -19,6 +18,13 @@ app.use(
 app.use(express.json());
 app.use(errorController.logErrors);
 app.use(layouts);
+
+app.use(errorController.respondNoResourceFound);
+app.use(errorController.respondInternalError);
+
+app.use(express.static("public"));
+app.use("/public/", express.static("public/"));
+app.use(express.static(process.cwd() + "public"));
 
 app.use((req, res, next) => {
   console.log(`request made to: ${req.url}`);
