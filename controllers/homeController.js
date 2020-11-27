@@ -1,16 +1,30 @@
 "use strict";
 
-exports.sendReqParam = (req, res) => {
-  let veg = req.params.vegetable;
-  res.send(`This is the page for ${veg}`);
+var courses = [
+  {
+    title: "Event Driven Cakes",
+    cost: 50,
+  },
+  {
+    title: "Asynchronous Artichoke",
+    cost: 25,
+  },
+  {
+    title: "Object Oriented Orange Juice",
+    cost: 10,
+  },
+];
+
+exports.showCourses = (req, res) => {
+  res.render("courses", {
+    offeredCourses: courses,
+  });
 };
 
-exports.sendReqParam = (req, res) => {
-  let workPage = req.params.work;
-  res.send(`Hello from ${workPage} route!`);
+exports.showSignUp = (req, res) => {
+  res.render("contact");
 };
 
-exports.respondWithName = (req, res) => {
-  let paramsName = req.params.myName;
-  res.render("index", { name: paramsName });
+exports.postedSignUpForm = (req, res) => {
+  res.render("Thank you!");
 };

@@ -2,47 +2,27 @@
 
 const express = require("express"),
   app = express(),
-  errorController = require("./controllers/errorController"),
   homeController = require("./controllers/homeController"),
-  layouts = require("express-ejs-layouts");
+  errorController = require("./controllers/errorController");
 
-const port = 3000;
+app.set("port", process.env.PORT || 3000);
+
+app.get("/", (req, res) => {
+  res.send("Welcome!");
+});
+
+app.listen(app.get("port"), () => {
+  console.log(`Server is running at http://localhost:${app.get("port")}`);
+});
+
+const layouts = require("express-ejs-layouts");
 app.set("view engine", "ejs");
-
-app.use(
-  express.urlencoded({
-    extended: false,
-  })
-);
-
-app.use(express.json());
-app.use(errorController.logErrors);
 app.use(layouts);
+app.use(express.static("public"));
+
+app.get("/courses", homeController.showCourses);
+app.get("/contact", homeController.showSignUp);
+app.get("/contact", homeController.postedSignUpForm);
 
 app.use(errorController.respondNoResourceFound);
 app.use(errorController.respondInternalError);
-
-app.use(express.static("public"));
-app.use("/public/", express.static("public/"));
-app.use(express.static(process.cwd() + "public"));
-
-app.use((req, res, next) => {
-  console.log(`request made to: ${req.url}`);
-  next();
-});
-
-app.get("/", (req, res) => {
-  console.log(req.body);
-  console.log(req.query);
-  res.send("POST Successful!");
-});
-
-app.get("/items/:vegetable", homeController.sendReqParam);
-app.get("/:work", homeController.sendReqParam);
-app.get("/name/:myName", homeController.respondWithName);
-
-app.listen(port, () => {
-  console.log(
-    `The Express.js server has started and is listening on port number: ${port}`
-  );
-});
