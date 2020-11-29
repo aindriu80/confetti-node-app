@@ -5,36 +5,56 @@ const express = require("express"),
   homeController = require("./controllers/homeController"),
   errorController = require("./controllers/errorController"),
   // layouts = require("express-ejs-layouts"),
-  MongoDB = require("mongodb").MongoClient,
-  dbURL = "mongodb://localhost:27017",
-  dbName = "recipe_db";
+  mongoose = require("mongoose");
 
-MongoDB.connect(dbURL, (error, client) => {
-  if (error) throw error;
-  let db = client.db(dbName);
-  db.collection("contacts")
-    .find()
-    .toArray((error, data) => {
-      if (error) throw error;
-      console.log(data);
-    });
+mongoose.connect("mongodb://localhost:27017/recipe_db", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
-  db.collection("contacts").insert(
-    {
-      name: "Freddie Mercury",
-      email: "fred@queen.com",
-    },
-    (error, db) => {
-      if (error) throw error;
-      console.log(db);
-    }
-  );
+const Subscriber = require("./models/subscriber");
+
+const db = mongoose.connection;
+
+db.once("open", () => {
+  console.log("Sucessfully connected to MongoDB using Mongoose!");
 });
 
 app.set("port", process.env.PORT || 3000);
 
 app.get("/", (req, res) => {
   res.send("Welcome!");
+});
+
+const Subscriber = mongoose.model("Subscriber", subscriberSchema);
+
+var subscriber1 = new Subscriber({
+  name: "Aindriú Mac Giolla Eoin",
+  email: "name@gmail.com",
+});
+
+subscriber1.save((error, savedDocument) => {
+  if (error) console.log(error);
+  console.log(savedDocument);
+});
+
+Subscriber.create(
+  {
+    name: "Person name 2",
+    email: "email2@gmail.com",
+  },
+  function (error, savedDocument) {
+    if (error) console.log(error);
+    console.log(savedDocument);
+  }
+);
+
+var myQuery = Subscriber.findOne({
+  name: "Aindriú Mac Giolla Eoin",
+}).where("email", /wexler/);
+
+myQuery.exec((error, data) => {
+  if (data) console.log(data.name);
 });
 
 app.listen(app.get("port"), () => {
