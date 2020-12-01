@@ -42,11 +42,17 @@ app.set("view engine", "ejs");
 app.use(layouts);
 app.use(express.static("public"));
 
-// app.get("/", homeController.index);
+app.use(
+  express.urlencoded({
+    extended: false,
+  })
+);
+app.use(express.json());
+
 app.get("/courses", homeController.showCourses);
 app.get("/contact", homeController.showSignUp);
 app.get("/contact", homeController.postedSignUpForm);
-app.get("/contact", subscribersController.getSubscriptonPage);
+app.get("/contact", subscribersController.getSubscriptionPage);
 app.post("/subscribe", subscribersController.saveSubscriber);
 
 app.use(errorController.respondNoResourceFound);
