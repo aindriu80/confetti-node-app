@@ -4,12 +4,12 @@ const Subscriber = require("../models/subscriber");
 exports.getAllSubscribers = (req, res) => {
   Subscriber.find({})
     .exec()
-    .then(subscribers => {
+    .then((subscribers) => {
       res.render("subscribers", {
-        subscribers: subscribers
+        subscribers: subscribers,
       });
     })
-    .catch(error => {
+    .catch((error) => {
       console.log(error.message);
       return [];
     })
@@ -26,15 +26,15 @@ exports.saveSubscriber = (req, res) => {
   let newSubscriber = new Subscriber({
     name: req.body.name,
     email: req.body.email,
-    zipCode: req.body.zipCode,
+    eirCode: req.body.eirCode,
   });
 
   newSubscriber
     .save()
-    .then(result => {
+    .then((result) => {
       res.render("thanks");
     })
-    .catch(error => {
+    .catch((error) => {
       if (error) res.send(error);
     });
 };
