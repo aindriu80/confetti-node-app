@@ -5,6 +5,7 @@ const express = require("express"),
   homeController = require("./controllers/homeController"),
   errorController = require("./controllers/errorController"),
   subscribersController = require("./controllers/subscribersController"),
+  usersController = require("./controllers/usersController"),
   mongoose = require("mongoose"),
   Subscriber = require("./models/subscriber");
 
@@ -48,11 +49,10 @@ app.use(
   })
 );
 app.use(express.json());
-
-app.get("/courses", homeController.showCourses);
-app.get("/contact", homeController.showSignUp);
-app.get("/contact", homeController.postedSignUpForm);
 app.get("/contact", subscribersController.getSubscriptionPage);
+
+app.get("/users", usersController.index);
+app.get("/courses", homeController.showCourses);
 app.post("/subscribe", subscribersController.saveSubscriber);
 
 app.use(errorController.respondNoResourceFound);
