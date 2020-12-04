@@ -14,12 +14,14 @@ var courses = [
     cost: 10,
   },
 ];
-module.exports = {
-  showCourses: (req, res) => {
-    res.render("courses", {
-      offeredCourses: courses,
-    });
-  },
+exports.showCourses = (req, res) => {
+  res.render("courses", {
+    offeredCourses: courses,
+  });
+};
+
+exports.index = (req, res) => {
+  res.render("index");
 };
 
 exports.showCourses = (req, res) => {

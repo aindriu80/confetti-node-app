@@ -22,10 +22,6 @@ db.once("open", () => {
 
 app.set("port", process.env.PORT || 3000);
 
-app.get("/", (req, res) => {
-  res.send("Welcome!");
-});
-
 app.get(
   "/subscribers",
   subscribersController.getAllSubscribers,
@@ -49,10 +45,12 @@ app.use(
   })
 );
 app.use(express.json());
-app.get("/contact", subscribersController.getSubscriptionPage);
 
-app.get("/users", usersController.index);
+app.get("/", homeController.index);
 app.get("/courses", homeController.showCourses);
+
+app.get("/contact", subscribersController.getSubscriptionPage);
+app.get("/users", usersController.index);
 app.post("/subscribe", subscribersController.saveSubscriber);
 
 app.use(errorController.respondNoResourceFound);
