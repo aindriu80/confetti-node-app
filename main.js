@@ -50,7 +50,8 @@ app.get("/", homeController.index);
 app.get("/courses", homeController.showCourses);
 
 app.get("/contact", subscribersController.getSubscriptionPage);
-app.get("/users", usersController.index);
+// app.get("/users", usersController.index);
+app.get("/users", usersController.index, usersController.indexView);
 app.post("/subscribe", subscribersController.saveSubscriber);
 
 app.use(errorController.respondNoResourceFound);
