@@ -23,7 +23,12 @@
         <%= user.email %>
       </td>
       <td>
-        <%= user.zipCode %>
+        <%= user.eirCode %>
+      </td>
+      <td>
+        <a href="<%=`/users/${user._id}/edit`%>">
+          Edit
+        </a>
       </td>
     </tr>
     <% }); %>

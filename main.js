@@ -9,6 +9,7 @@ const express = require("express"),
   usersController = require("./controllers/usersController"),
   mongoose = require("mongoose"),
   Subscriber = require("./models/subscriber"),
+  methodOverride = require("method-override"),
   layouts = require("express-ejs-layouts");
 
 mongoose.connect("mongodb://localhost:27017/recipe_db", {
@@ -35,17 +36,31 @@ router.use(
   })
 );
 
+router.use(
+  methodOverride("_method", {
+    methods: ["POST", "GET"],
+  })
+);
+
 router.use(express.json());
 
 router.get("/", homeController.index);
 router.get("/courses", homeController.showCourses);
 router.get("/contact", subscribersController.getSubscriptionPage);
 router.get("/users/new", usersController.new);
+
 router.post(
   "/users/create",
   usersController.create,
   usersController.redirectView
 );
+router.get("/users/:id/edit", usersController.edit);
+router.put(
+  "/users/:id/update",
+  usersController.update,
+  usersController.redirectView
+);
+
 router.get("/users", usersController.index, usersController.indexView);
 router.get("/users/:id", usersController.show, usersController.showView);
 router.post("/subscribe", subscribersController.saveSubscriber);
