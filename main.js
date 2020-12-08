@@ -65,6 +65,11 @@ router.get("/users", usersController.index, usersController.indexView);
 router.get("/users/:id", usersController.show, usersController.showView);
 router.post("/subscribe", subscribersController.saveSubscriber);
 
+router.delete(
+  "/users/:id/delete",
+  usersController.delete,
+  usersController.redirectView
+);
 router.use(errorController.respondNoResourceFound);
 router.use(errorController.respondInternalError);
 
