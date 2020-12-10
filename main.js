@@ -5,10 +5,10 @@ const express = require("express"),
   router = express.Router(),
   homeController = require("./controllers/homeController"),
   errorController = require("./controllers/errorController"),
-  subscribersController = require("./controllers/subscribersController"),
-  usersController = require("./controllers/usersController"),
+  subscribersController = require("./controllers/subscribersController.js"),
+  usersController = require("./controllers/usersController.js"),
+  coursesController = require("./controllers/coursesController.js"),
   mongoose = require("mongoose"),
-  Subscriber = require("./models/subscriber"),
   methodOverride = require("method-override"),
   layouts = require("express-ejs-layouts");
 
@@ -46,7 +46,7 @@ router.use(express.json());
 
 router.get("/", homeController.index);
 router.get("/courses", homeController.showCourses);
-router.get("/contact", subscribersController.getSubscriptionPage);
+// router.get("/contact", subscribersController.getSubscriptionPage);
 router.get("/users/new", usersController.new);
 
 router.post(
@@ -61,9 +61,37 @@ router.put(
   usersController.redirectView
 );
 
+router.get(
+  "/subscribers",
+  subscribersController.index,
+  subscribersController.indexView
+);
+router.get("/subscribers/new", subscribersController.new);
+router.post(
+  "/subscribers/create",
+  subscribersController.create,
+  subscribersController.redirectView
+);
+router.get("/subscribers/:id/edit", subscribersController.edit);
+router.put(
+  "/subscribers/:id/update",
+  subscribersController.update,
+  subscribersController.redirectView
+);
+router.get(
+  "/subscribers/:id",
+  subscribersController.show,
+  subscribersController.showView
+);
+router.delete(
+  "/subscribers/:id/delete",
+  subscribersController.delete,
+  subscribersController.redirectView
+);
+
 router.get("/users", usersController.index, usersController.indexView);
 router.get("/users/:id", usersController.show, usersController.showView);
-router.post("/subscribe", subscribersController.saveSubscriber);
+// router.post("/subscribe", subscribersController.saveSubscriber);
 
 router.delete(
   "/users/:id/delete",

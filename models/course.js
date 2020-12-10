@@ -22,7 +22,9 @@ const mongoose = require("mongoose"),
         min: [0, "Course cannot have a negative cost"],
       },
     },
-    { timestampstrue }
+  {
+    timestamps: true
+  }
   );
 
 module.exports = mongoose.model("Course", courseSchema);
