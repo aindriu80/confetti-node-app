@@ -1,5 +1,16 @@
 "use strict";
-const User = require("../models/user");
+const User = require("../models/user"),
+  getUserParams = (body) => {
+    return {
+      name: {
+        first: body.first,
+        last: body.last,
+      },
+      email: body.email,
+      password: body.password,
+      zipCode: body.zipCode,
+    };
+  };
 
 module.exports = {
   index: (req, res, next) => {
@@ -21,24 +32,25 @@ module.exports = {
     res.render("users/new");
   },
   create: (req, res, next) => {
-    let userParams = {
-      name: {
-        first: req.body.first,
-        last: req.body.last,
-      },
-      email: req.body.email,
-      password: req.body.password,
-      eirCode: req.body.eirCode,
-    };
+    let userParams = getUserParams(req.body);
     User.create(userParams)
       .then((user) => {
+        req.flash(
+          "success",
+          `${user.fullName}'s account created successfully!`
+        );
         res.locals.redirect = "/users";
         res.locals.user = user;
         next();
       })
       .catch((error) => {
         console.log(`Error saving user: ${error.message}`);
-        next(error);
+        res.locals.redirect = "/users/new";
+        req.flash(
+          "error",
+          `Failed to create user account because: ${error.message}.`
+        );
+        next();
       });
   },
   redirectView: (req, res, next) => {

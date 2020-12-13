@@ -10,7 +10,12 @@ const express = require("express"),
   coursesController = require("./controllers/coursesController.js"),
   mongoose = require("mongoose"),
   methodOverride = require("method-override"),
+  expressSession = require("express-session"),
+  cookieParser = require("cookie-parser"),
+  connectFlash = require("connect-flash"),
   layouts = require("express-ejs-layouts");
+
+require("dotenv").config();
 
 mongoose.connect("mongodb://localhost:27017/recipe_db", {
   useNewUrlParser: true,
@@ -43,10 +48,26 @@ router.use(
 );
 
 router.use(express.json());
+router.use(cookieParser("secret_passcode"));
+router.use(
+  expressSession({
+    secret: process.env.secret,
+    cookie: {
+      maxAge: 4000000,
+    },
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+router.use(connectFlash());
+
+router.use((req, res, next) => {
+  res.locals.flashMessages = req.flash();
+  next();
+});
 
 router.get("/", homeController.index);
 router.get("/courses", homeController.showCourses);
-// router.get("/contact", subscribersController.getSubscriptionPage);
 router.get("/users/new", usersController.new);
 
 router.post(
