@@ -126,20 +126,32 @@ module.exports = {
   login: (req, res) => {
     res.render("users/login");
   },
+
   authenticate: (req, res, next) => {
-    User.findOne({
-      email: req.body.email,
-    })
+    User.findOne({ email: req.body.email })
       .then((user) => {
-        if (user && user.password === req.body.password) {
-          res.locals.redirect = `/users/${user._id}`;
-          req.flash("success", `${user.fullName}'s logged in sucessfully!`);
-          res.locals.user = user;
-          next();
+        if (user) {
+          user.passwordComparison(req.body.password).then((passwordsMatch) => {
+            if (passwordsMatch) {
+              res.locals.redirect = `/users/${user._id}`;
+              req.flash(
+                "success",
+                `${user.fullName}'s logged in successfully!`
+              );
+              res.locals.user = user;
+            } else {
+              req.flash(
+                "error",
+                "Failed to log in user account: Incorrect Password."
+              );
+              res.locals.redirect = "/users/login";
+            }
+            next();
+          });
         } else {
           req.flash(
             "error",
-            "Your account or password is incorrect. Please try again or contact your system administrator"
+            "Failed to log in user account: User account not found."
           );
           res.locals.redirect = "/users/login";
           next();
