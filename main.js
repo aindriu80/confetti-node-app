@@ -13,6 +13,7 @@ const express = require("express"),
   expressSession = require("express-session"),
   cookieParser = require("cookie-parser"),
   connectFlash = require("connect-flash"),
+  expressValidator = require("express-validator"),
   layouts = require("express-ejs-layouts");
 
 require("dotenv").config();
@@ -66,12 +67,15 @@ router.use((req, res, next) => {
   next();
 });
 
+router.use(expressValidator());
+
 router.get("/", homeController.index);
 router.get("/courses", homeController.showCourses);
 router.get("/users/new", usersController.new);
 
 router.post(
   "/users/create",
+  usersController.validate,
   usersController.create,
   usersController.redirectView
 );
