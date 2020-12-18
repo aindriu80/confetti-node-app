@@ -1,5 +1,6 @@
 "use strict";
 const User = require("../models/user"),
+  passport = require("passport"),
   getUserParams = (body) => {
     return {
       name: {
@@ -126,41 +127,13 @@ module.exports = {
     res.render("users/login");
   },
 
-  authenticate: (req, res, next) => {
-    User.findOne({ email: req.body.email })
-      .then((user) => {
-        if (user) {
-          user.passwordComparison(req.body.password).then((passwordsMatch) => {
-            if (passwordsMatch) {
-              res.locals.redirect = `/users/${user._id}`;
-              req.flash(
-                "success",
-                `${user.fullName}'s logged in successfully!`
-              );
-              res.locals.user = user;
-            } else {
-              req.flash(
-                "error",
-                "Failed to log in user account: Incorrect Password."
-              );
-              res.locals.redirect = "/users/login";
-            }
-            next();
-          });
-        } else {
-          req.flash(
-            "error",
-            "Failed to log in user account: User account not found."
-          );
-          res.locals.redirect = "/users/login";
-          next();
-        }
-      })
-      .catch((error) => {
-        console.log(`Error logging in user: ${error.message}`);
-        next(error);
-      });
-  },
+  authenticate: passport.authenticate("local", {
+    failureRedirect: "/users/login",
+    failureFlash: "Failed to login.",
+    successRedirect: "/",
+    successFlash: "Logged in!",
+  }),
+
   validate: (req, res, next) => {
     req
       .sanitizeBody("email")
@@ -191,5 +164,11 @@ module.exports = {
         next();
       }
     });
+  },
+  logout: (req, res, next) => {
+    req.logout();
+    req.flash("success", "You have been logged out!");
+    res.locals.redirect = "/";
+    next();
   },
 };
