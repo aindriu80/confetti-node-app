@@ -20,20 +20,22 @@
             <li><a href="/users">Users</a></li>        
             <li><a href="/subscribers">Subscribers</a></li>        
           </ul>
-          <div class="login-status right">
+          <div class="login-status nav-rhs1 hide-on-med-and-down">
 			<% if (loggedIn) { %>
-			<div class="bubble logged-in">
-				Logged in as <a href="<%=`/users/${currentUser._id}`%>">
-					<%= currentUser.fullName %></a>
-			</div>
-			<div class="log-out">
-				<a href="/users/logout">Log out</a>
-			</div>
-			<%} else {%>
-			<div class="bubble log-in">
-				<a href="/users/login">Log In</a>
-			</div>
-			<% } %>
+				<p>Logged in as
+					<a href="<%=`/users/${currentUser._id}`%>">
+						<%= currentUser.fullName %></a>
+					<span class="waves-effect waves-light btn-small log-out">
+						<a href="/users/logout">Log out</a>
+					</span>
+				</p>
+	 
+				<%} else {%>
+					 
+
+						<a href="/users/login">Log In</a>
+					</div>
+				<% } %>
 		</div>
         </div>
       </nav> 

@@ -25,3 +25,24 @@ img {
 .error {
   background: rgba(209, 46, 42, 0.7);
 }
+
+.nav-rhs1{
+  padding-right: 15px;
+  float:right;
+  line-height: 30px;
+  
+}
+.nav-rhs{
+  padding-right: 15px;
+  float:right;
+  
+  line-height: -30px;
+  
+}
+
+.log-out {
+  display: inline-block;
+  padding: 0 8px;
+  border-radius: 10px;
+  /* background: #fff; */
+}

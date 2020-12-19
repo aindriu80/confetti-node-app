@@ -2,13 +2,13 @@
 
 const express = require("express"),
   app = express(),
-  router = express.Router(),
+  router = require("./routes/index"),
   layouts = require("express-ejs-layouts"),
-  homeController = require("./controllers/homeController"),
-  errorController = require("./controllers/errorController"),
-  subscribersController = require("./controllers/subscribersController.js"),
-  usersController = require("./controllers/usersController.js"),
-  coursesController = require("./controllers/coursesController.js"),
+  // homeController = require("./controllers/homeController"),
+  // errorController = require("./controllers/errorController"),
+  // subscribersController = require("./controllers/subscribersController.js"),
+  // usersController = require("./controllers/usersController.js"),
+  // coursesController = require("./controllers/coursesController.js"),
   mongoose = require("mongoose"),
   methodOverride = require("method-override"),
   expressSession = require("express-session"),
@@ -80,113 +80,113 @@ router.use((req, res, next) => {
 
 router.use(expressValidator());
 
-router.get("/", homeController.index);
-router.get("/courses", homeController.showCourses);
-router.get("/users/new", usersController.new);
+// router.get("/", homeController.index);
+// router.get("/courses", homeController.showCourses);
+// router.get("/users/new", usersController.new);
 
-router.post(
-  "/users/create",
-  usersController.validate,
-  usersController.create,
-  usersController.redirectView
-);
-router.get("/users/:id/edit", usersController.edit);
-router.put(
-  "/users/:id/update",
-  usersController.update,
-  usersController.redirectView
-);
+// router.post(
+//   "/users/create",
+//   usersController.validate,
+//   usersController.create,
+//   usersController.redirectView
+// );
+// router.get("/users/:id/edit", usersController.edit);
+// router.put(
+//   "/users/:id/update",
+//   usersController.update,
+//   usersController.redirectView
+// );
 
-router.get(
-  "/subscribers",
-  subscribersController.index,
-  subscribersController.indexView
-);
+// router.get(
+//   "/subscribers",
+//   subscribersController.index,
+//   subscribersController.indexView
+// );
 
-router.get(
-  "/subscribers",
-  subscribersController.index,
-  subscribersController.indexView
-);
-router.get("/subscribers/new", subscribersController.new);
-router.post(
-  "/subscribers/create",
-  subscribersController.create,
-  subscribersController.redirectView
-);
-router.get("/subscribers/:id/edit", subscribersController.edit);
-router.put(
-  "/subscribers/:id/update",
-  subscribersController.update,
-  subscribersController.redirectView
-);
-router.get(
-  "/subscribers/:id",
-  subscribersController.show,
-  subscribersController.showView
-);
-router.delete(
-  "/subscribers/:id/delete",
-  subscribersController.delete,
-  subscribersController.redirectView
-);
+// router.get(
+//   "/subscribers",
+//   subscribersController.index,
+//   subscribersController.indexView
+// );
+// router.get("/subscribers/new", subscribersController.new);
+// router.post(
+//   "/subscribers/create",
+//   subscribersController.create,
+//   subscribersController.redirectView
+// );
+// router.get("/subscribers/:id/edit", subscribersController.edit);
+// router.put(
+//   "/subscribers/:id/update",
+//   subscribersController.update,
+//   subscribersController.redirectView
+// );
+// router.get(
+//   "/subscribers/:id",
+//   subscribersController.show,
+//   subscribersController.showView
+// );
+// router.delete(
+//   "/subscribers/:id/delete",
+//   subscribersController.delete,
+//   subscribersController.redirectView
+// );
 
-router.get("/users", usersController.index, usersController.indexView);
-router.get("/users/new", usersController.new);
-router.post(
-  "/users/create",
-  usersController.create,
-  usersController.redirectView
-);
+// router.get("/users", usersController.index, usersController.indexView);
+// router.get("/users/new", usersController.new);
+// router.post(
+//   "/users/create",
+//   usersController.create,
+//   usersController.redirectView
+// );
 
-router.get("/users/login", usersController.login);
-router.post(
-  "/users/login",
-  usersController.authenticate,
-  usersController.redirectView
-);
+// router.get("/users/login", usersController.login);
+// router.post(
+//   "/users/login",
+//   usersController.authenticate,
+//   usersController.redirectView
+// );
 
-router.get(
-  "/users/logout",
-  usersController.logout,
-  usersController.redirectView
-);
+// router.get(
+//   "/users/logout",
+//   usersController.logout,
+//   usersController.redirectView
+// );
 
-router.get("/users/:id/edit", usersController.edit);
-router.put(
-  "/users/:id/update",
-  usersController.update,
-  usersController.redirectView
-);
-router.get("/users/:id", usersController.show, usersController.showView);
-router.delete(
-  "/users/:id/delete",
-  usersController.delete,
-  usersController.redirectView
-);
+// router.get("/users/:id/edit", usersController.edit);
+// router.put(
+//   "/users/:id/update",
+//   usersController.update,
+//   usersController.redirectView
+// );
+// router.get("/users/:id", usersController.show, usersController.showView);
+// router.delete(
+//   "/users/:id/delete",
+//   usersController.delete,
+//   usersController.redirectView
+// );
 
-router.get("/courses", coursesController.index, coursesController.indexView);
-router.get("/courses/new", coursesController.new);
-router.post(
-  "/courses/create",
-  coursesController.create,
-  coursesController.redirectView
-);
-router.get("/courses/:id/edit", coursesController.edit);
-router.put(
-  "/courses/:id/update",
-  coursesController.update,
-  coursesController.redirectView
-);
-router.get("/courses/:id", coursesController.show, coursesController.showView);
-router.delete(
-  "/courses/:id/delete",
-  coursesController.delete,
-  coursesController.redirectView
-);
+// router.get("/courses", coursesController.index, coursesController.indexView);
+// router.get("/courses/new", coursesController.new);
+// router.post(
+//   "/courses/create",
+//   coursesController.create,
+//   coursesController.redirectView
+// );
+// router.get("/courses/:id/edit", coursesController.edit);
+// router.put(
+//   "/courses/:id/update",
+//   coursesController.update,
+//   coursesController.redirectView
+// );
+// router.get("/courses/:id", coursesController.show, coursesController.showView);
+// router.delete(
+//   "/courses/:id/delete",
+//   coursesController.delete,
+//   coursesController.redirectView
+// );
 
-router.use(errorController.respondNoResourceFound);
-router.use(errorController.respondInternalError);
+// router.use(errorController.respondNoResourceFound);
+// router.use(errorController.respondInternalError);
 
 app.use("/", router);
 
