@@ -1,7 +1,9 @@
 "use strict";
 
 const mongoose = require("mongoose"),
-  User = require("./models/user");
+  Subscriber = require("./models/subscriber"),
+  User = require("./models/user"),
+  Course = require("./models/course");
 
 mongoose.connect("mongodb://localhost:27017/recipe_db", {
   useNewUrlParser: true,
@@ -9,44 +11,150 @@ mongoose.connect("mongodb://localhost:27017/recipe_db", {
 mongoose.set("useCreateIndex", true);
 mongoose.connection;
 
-var contacts = [
-  {
-    name: { first: "Jon", last: "Wexler" },
-    email: "jon@jonwexler.com",
-    zipCode: 10016,
-  },
-  {
-    name: { first: "Chef", last: "Eggplant" },
-    email: "eggplant@recipeapp.com",
-    zipCode: 20331,
-  },
-  {
-    name: { first: "Professor", last: "Souffle" },
-    email: "souffle@recipeapp.com",
-    zipCode: 19103,
-  },
-];
+// USERS
+var users = [
+    {
+      name: {
+        first: "Aindriú",
+        last: "Mac Giolla Eoin",
+      },
+      email: "test@mail.com",
+      eirCode: 10016,
+      password: "12345",
+    },
+    {
+      name: {
+        first: "Chef",
+        last: "Eggplant",
+      },
+      email: "eggplant@recipeapp.com",
+      eirCode: 20331,
+      password: "12345",
+    },
+    {
+      name: {
+        first: "Professor",
+        last: "Souffle",
+      },
+      email: "souffle@recipeapp.com",
+      eirCode: 19103,
+      password: "12345",
+    },
+  ],
+  courses = [
+    {
+      title: "Trust the process",
+      description:
+        "You will be given top quality ingredients -- aged for a year at great loss -- and used to build the potential of the meal.",
+      items: ["Persimmons", "Markelle malts", "Embiid spices"],
+      eirCode: 19025,
+    },
+    {
+      title: "Democracy muffins",
+      description:
+        "Although this course does not always have the popular vote, results are bittersweet.",
+      items: ["Orange", "Vanilla", "Sour cream"],
+      eirCode: 23512,
+    },
+    {
+      title: "One with everything",
+      description:
+        "This class teaches you a recipe that includes multiple techniques. At the end, you will find enlightment in just ordering food in.",
+      items: ["Lotus root", "Lemon grass", "Tofu"],
+      eirCode: 43234,
+    },
+  ];
 
-User.deleteMany()
-  .exec()
-  .then(() => {
-    console.log("Subscriber data is empty!");
+let createCourse = (c, resolve) => {
+  Course.create({
+    title: c.title,
+    description: c.description,
+    items: c.items,
+    eirCode: c.eirCode,
+  }).then((course) => {
+    console.log(`CREATED COURSE: ${course.title}`);
+    resolve(course);
   });
+};
 
-var commands = [];
-
-contacts.forEach((c) => {
-  commands.push(
-    User.create({
-      name: c.name,
-      email: c.email,
-      zipCode: c.zipCode,
-      password: c.zipCode,
+courses.reduce(
+  (promiseChain, next) => {
+    return promiseChain.then(
+      () =>
+        new Promise((resolve) => {
+          createCourse(next, resolve);
+        })
+    );
+  },
+  Course.remove({})
+    .exec()
+    .then(() => {
+      console.log("Course data is empty!");
     })
-  );
-});
+);
 
-Promise.all(commands)
+let createSubscriber = (s, resolve) => {
+  Subscriber.create({
+    name: `${s.name.first} ${s.name.last}`,
+    email: s.email,
+    eirCode: s.eirCode,
+  }).then((sub) => {
+    console.log(`CREATED SUBSCRIBER: ${sub.name}`);
+    resolve(sub);
+  });
+};
+
+users.reduce(
+  (promiseChain, next) => {
+    return promiseChain.then(
+      () =>
+        new Promise((resolve) => {
+          createSubscriber(next, resolve);
+        })
+    );
+  },
+  Subscriber.remove({})
+    .exec()
+    .then(() => {
+      console.log("Subscriber data is empty!");
+    })
+);
+
+let registerUser = (u, resolve) => {
+  User.register(
+    {
+      name: {
+        first: u.name.first,
+        last: u.name.last,
+      },
+      email: u.email,
+      eirCode: u.eirCode,
+      password: u.password,
+    },
+    u.password,
+    (error, user) => {
+      console.log(`USER created: ${user.fullName}`);
+      resolve(user);
+    }
+  );
+};
+
+users
+  .reduce(
+    (promiseChain, next) => {
+      return promiseChain.then(
+        () =>
+          new Promise((resolve) => {
+            registerUser(next, resolve);
+          })
+      );
+    },
+    User.remove({})
+      .exec()
+      .then(() => {
+        console.log("User data is empty!");
+      })
+  )
   .then((r) => {
     console.log(JSON.stringify(r));
     mongoose.connection.close();
