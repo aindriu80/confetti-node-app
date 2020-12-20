@@ -1,3 +1,5 @@
+<div class="container">
+
 <div class="data-form">
   <form class="form-signin" action="<%=`/courses/${course._id}/update?_method=PUT`%>" method="POST">
     <h2 class="form-signin-heading">Edit course:</h2>
@@ -11,4 +13,6 @@
     <input type="text" name="zipCode" id="inputZipCode" pattern="\d*" class="form-control" value="<%= course.zipCode %>" placeholder="Zip Code" required>
     <br /><button class="btn btn-lg btn-primary btn-block" type="submit">Save</button>
   </form>
+</div>
+
 </div>
