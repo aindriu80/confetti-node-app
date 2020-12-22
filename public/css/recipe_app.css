@@ -147,7 +147,7 @@ button[type="submit"] {
 
 .modal-dialog {
   background: white;
-  border-radius: 15px;
+  border-radius: 15px;  
 }
 
 .modal-title {
@@ -186,6 +186,3 @@ button[type="submit"] {
   content: "";
 }
 
-/* .modal-body {
-  padding: 15px 30px;
-} */

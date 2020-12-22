@@ -27,11 +27,7 @@ module.exports = {
       });
   },
   indexView: (req, res) => {
-    if (req.query.format === "json") {
-      res.json(res.locals.courses);
-    } else {
-      res.render("users/index");
-    }
+    res.render("users/index");
   },
   new: (req, res) => {
     res.render("users/new");

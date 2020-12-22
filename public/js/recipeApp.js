@@ -1,8 +1,9 @@
 $(document).ready(() => {
   $("#modal-button").click(() => {
     $(".modal-body").html("");
-    $.get("/courses?format=json", data => {
-      data.forEach(course => {
+    console.log("Hello");
+    $.get("/courses?format=json", (data) => {
+      data.forEach((course) => {
         $(".modal-body").append(
           `<div>
 						<span class="course-title">

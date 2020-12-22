@@ -55,13 +55,14 @@ img {
 .modal-dialog {
   background: white;
   border-radius: 15px;
+  color:  #000000;
 }
 
 .modal-title {
   padding-top: 30px;
   padding-top: 30px;
   font-size: 30px;
-  font-family: "Baloo Bhaina";
+  font-family: "Segoe UI";
   color: #625956;
   font-weight: 100;
 }
