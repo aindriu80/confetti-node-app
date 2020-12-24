@@ -19,7 +19,7 @@ Subscriber.remove({})
     return Subscriber.create({
       name: "Aindriú",
       email: "<aindriu></aindriu>@cnn.com",
-      zipCode: "12345",
+      eirCode: "12345",
     });
   })
   .then((subscriber) => {
@@ -38,7 +38,7 @@ Subscriber.remove({})
     return Course.create({
       title: "Tomato Land",
       description: "Locally farmed tomatoes only",
-      zipCode: 12345,
+      eirCode: 12345,
       items: ["cherry", "heirloom"],
     });
   })

@@ -5,7 +5,7 @@ const Subscriber = require("../models/subscriber"),
     return {
       name: body.name,
       email: body.email,
-      zipCode: parseInt(body.zipCode),
+      eirCode: parseInt(body.eirCode),
     };
   };
 
