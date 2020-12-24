@@ -1,4 +1,6 @@
 "use strict";
+require("dotenv").config();
+const token = process.env.TOKEN;
 const User = require("../models/user"),
   passport = require("passport"),
   getUserParams = (body) => {
@@ -170,5 +172,9 @@ module.exports = {
     req.flash("success", "You have been logged out!");
     res.locals.redirect = "/";
     next();
+  },
+  verifyToken: (req, res, next) => {
+    if (req.query.apiToken === token) next();
+    else next(new Error("Invalid API token."));
   },
 };
