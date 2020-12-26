@@ -11,11 +11,6 @@ const express = require("express"),
   connectFlash = require("connect-flash"),
   expressValidator = require("express-validator"),
   passport = require("passport"),
-  errorController = require("./controllers/errorController"),
-  homeController = require("./controllers/homeController"),
-  subscribersController = require("./controllers/subscribersController"),
-  usersController = require("./controllers/usersController"),
-  coursesController = require("./controllers/coursesController"),
   User = require("./models/user");
 
 require("dotenv").config();
@@ -39,13 +34,13 @@ app.use(express.static("public"));
 app.use(layouts);
 app.use(
   express.urlencoded({
-    extended: false
+    extended: false,
   })
 );
 
 app.use(
   methodOverride("_method", {
-    methods: ["POST", "GET"]
+    methods: ["POST", "GET"],
   })
 );
 
@@ -55,10 +50,10 @@ app.use(
   expressSession({
     secret: process.env.secret,
     cookie: {
-      maxAge: 4000000
+      maxAge: 4000000,
     },
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: false,
   })
 );
 
