@@ -41,3 +41,7 @@ exports.postedSignUpForm = (req, res) => {
 exports.contact = (req, res) => {
   res.render("contact");
 };
+
+exports.chat = (req, res) => {
+  res.render("chat");
+};
