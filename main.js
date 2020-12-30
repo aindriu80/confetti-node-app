@@ -15,11 +15,14 @@ const express = require("express"),
 
 require("dotenv").config();
 
-mongoose.connect("mongodb://localhost:27017/recipe_db", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useCreateIndex: true,
-});
+mongoose.connect(
+  process.env.MONGODB_URL || "mongodb://localhost:27017/recipe_db",
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+  }
+);
 
 const db = mongoose.connection;
 
